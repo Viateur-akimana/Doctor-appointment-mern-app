@@ -1,16 +1,17 @@
-import {BrowserRouter, Routes, Route } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
+
 function App() {
   return (
-<BrowserRouter>
-<Routes>
-  <Route to="/" element={<HomePage/>}/>
-  <Route to="/login" element={<Login/>}/>
-  <Route to="/register" element={<Register/>}/>
-</Routes>
-</BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

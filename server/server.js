@@ -15,10 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //listening for the port
-const port = process.env.PORT || 400
+const port = process.env.PORT || 3001
 
 //running the server
 app.listen(port,()=>{
-    console.log(`the app is running on port ${process.env.PORT} and mode ${proceess.env.NODE_MODE}`)
+    console.log(`the app is running on port ${process.env.PORT} and mode ${process.env.NODE_MODE}`)
 })
 
