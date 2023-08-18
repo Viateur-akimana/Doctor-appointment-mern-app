@@ -1,61 +1,31 @@
 const express = require("express");
 const {
-  loginController,
-  registerController,
-  authController,
-  applyDoctorController,
-  getAllNotificationController,
-  deleteAllNotificationController,
-  getAllDocotrsController,
-  bookeAppointmnetController,
-  bookingAvailabilityController,
-  userAppointmentsController,
-} = require("../controllers/userCtrl");
+  getDoctorInfoController,
+  updateProfileController,
+  getDoctorByIdController,
+  doctorAppointmentsController,
+  updateStatusController,
+} = require("../controllers/doctorCtrl");
 const authMiddleware = require("../middlewares/authMiddleware");
-
-//router onject
 const router = express.Router();
 
-//routes
-//LOGIN || POST
-router.post("/login", loginController);
+//POST SINGLE DOC INFO
+router.post("/getDoctorInfo", authMiddleware, getDoctorInfoController);
 
-//REGISTER || POST
-router.post("/register", registerController);
+//POST UPDATE PROFILE
+router.post("/updateProfile", authMiddleware, updateProfileController);
 
-//Auth || POST
-router.post("/getUserData", authMiddleware, authController);
+//POST  GET SINGLE DOC INFO
+router.post("/getDoctorById", authMiddleware, getDoctorByIdController);
 
-//APply Doctor || POST
-router.post("/apply-doctor", authMiddleware, applyDoctorController);
-
-//Notifiaction  Doctor || POST
-router.post(
-  "/get-all-notification",
+//GET Appointments
+router.get(
+  "/doctor-appointments",
   authMiddleware,
-  getAllNotificationController
-);
-//Notifiaction  Doctor || POST
-router.post(
-  "/delete-all-notification",
-  authMiddleware,
-  deleteAllNotificationController
+  doctorAppointmentsController
 );
 
-//GET ALL DOC
-router.get("/getAllDoctors", authMiddleware, getAllDocotrsController);
-
-//BOOK APPOINTMENT
-router.post("/book-appointment", authMiddleware, bookeAppointmnetController);
-
-//Booking Avliability
-router.post(
-  "/booking-availbility",
-  authMiddleware,
-  bookingAvailabilityController
-);
-
-//Appointments List
-router.get("/user-appointments", authMiddleware, userAppointmentsController);
+//POST Update Status
+router.post("/update-status", authMiddleware, updateStatusController);
 
 module.exports = router;
