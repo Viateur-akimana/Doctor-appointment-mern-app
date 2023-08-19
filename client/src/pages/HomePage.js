@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
-const HomePage = () => {
-  return (
-    <div>
-        <h1>HomePage</h1>
-    </div>
-  )
-}
+const HomePage = async () => {
+  try {
+    const res = await axios.post(
+      "api/v1/user/getUserData",
+      {},
+      {
+        headers: {
+          Authorization: "bearer" + localStorage.getItem("token"),
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+  useEffect(() => {
+    getUserData();
+  }, []);
 
-export default HomePage
+  return <div></div>;
+};
+
+export default HomePage;
