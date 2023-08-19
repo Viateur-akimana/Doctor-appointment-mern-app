@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/RegisterStyle.css";
 import { Button, Form, Input, message } from "antd";
-import { link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
@@ -63,9 +63,9 @@ const Login = () => {
           <Input type="Password" required />
         </Form.Item>
         <Form.Item>
-          <link to="/login" className="m-2">
+          <Link to="/" className="m-2">
             Not yet user have account
-          </link>
+         </Link>
           <Button className="primary" type="submit">
             Submit
           </Button>

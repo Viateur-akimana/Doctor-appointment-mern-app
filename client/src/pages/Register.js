@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/RegisterStyle.css";
 import { Button, Form, Input, message } from "antd";
-import { link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
@@ -62,9 +62,9 @@ const Register = () => {
         >
           <Input type="Password" required />
         </Form.Item>
-        <link to="/login" className="m-2">
+        <Link to="/login" className="m-2">
           Already user login here
-        </link>
+        </Link>
         <Button className="primary" type="submit">
           Submit
         </Button>
