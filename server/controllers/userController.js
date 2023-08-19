@@ -19,10 +19,10 @@ const registerController = async (req, res) => {
     await newUser.save();
     res
       .status(200)
-      .json({ success: true, message: "User registered successfully" });
+      .send({ success: true, message: "User registered successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).send({ success: false, message: error.message });
   }
 };
 const loginController = async () => {
@@ -43,9 +43,9 @@ const loginController = async () => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expriresIn: 3 * 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({success:true,message:"login successfully"});
+    res.status(200).send({success:true,message:"login successfully"});
   } catch (error) {
-    return res.status(500).json({message:"Error in loging in",success:false,token:token})
+    return res.status(500).send({message:"Error in loging in",success:false,token:token})
   }
 };
 
