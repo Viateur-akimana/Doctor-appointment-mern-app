@@ -1,12 +1,23 @@
 import React from "react";
 import "../styles/RegisterStyle.css";
-import { Button,Form, Input } from "antd";
-import { link } from "react-router-dom";
+import { Button, Form, Input, message } from "antd";
+import { link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+ const  navigate = useNavigate();
   //this is form handler
-  const onFinishHandler = (values) => {
-    console.log("Success:", values);
+  const onFinishHandler = async (values) => {
+    try {
+      const res = await axios.post("api/v1/user/register", values);
+      if (res.data.success) {
+        localStorage.setItem("token",res.data.token)
+        message.success("user registered successfully");
+        navigate("/login");
+      }
+    } catch (error) {
+      message.error("Something went wrong");
+    }
   };
   return (
     <div className="form-container">
@@ -52,7 +63,7 @@ const Register = () => {
           <Input type="Password" required />
         </Form.Item>
         <link to="/login" className="m-2">
-            Already user login here
+          Already user login here
         </link>
         <Button className="primary" type="submit">
           Submit
