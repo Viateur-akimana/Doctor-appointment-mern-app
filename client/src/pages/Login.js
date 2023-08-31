@@ -63,11 +63,11 @@ const Login = () => {
           <Input type="Password" required />
         </Form.Item>
         <Form.Item>
-          <Link to="/" className="m-2">
+          <Link to="/register" className="m-4">
             Not yet user have account
          </Link>
-          <Button className="primary" type="submit">
-            Submit
+          <Button className="primary " type="submit">
+            Login
           </Button>
         </Form.Item>
       </Form>

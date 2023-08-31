@@ -48,6 +48,34 @@ const loginController = async () => {
     return res.status(500).send({message:"Error in loging in",success:false,token:token})
   }
 };
+//getting user data
+const authController =async()=>{
+try {
+  const user = await userModel.findOne({_id:req.body.userId});
+if(!user){
+  return res.status(404).send({
+    success:"false",
+    message:"user not found"
+  })
+}else{
+  res.status(200).send({
+    success:'true',
+    data:{
+      name:user.name,
+      email:user.email
+    }
+  })
+}
+  
+} catch (error) {
+  console.log(error)
+  res.status(500).send({
+    success:'false',
+    message:'authentication failed'
+  })
+  
+}
+}
 
 module.exports = {
   registerController,
