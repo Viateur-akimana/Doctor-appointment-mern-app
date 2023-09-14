@@ -1,4 +1,5 @@
 const userModel = require("../model/userModel");
+const doctorModel = require("../model/doctorModel")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -76,8 +77,24 @@ if(!user){
   
 }
 }
+//apply doctor controller
+
+const applyDoctorController = async(req,res) =>{
+try {
+  
+} catch (error) {
+  console.log(error)
+  res.status(500).send({
+    success:true,
+    message:"An error occured when applying for doctor"
+  })
+  
+}
+}
 
 module.exports = {
   registerController,
   loginController,
+  authController,
+  applyDoctorController
 };

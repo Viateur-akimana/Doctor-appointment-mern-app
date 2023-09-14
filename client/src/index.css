@@ -12,3 +12,8 @@
   justify-content: center;
   background-color: gray;
 }
+
+.Form-btn{
+  width: 50px !important;
+  margin-top:30px  !important;
+}

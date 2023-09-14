@@ -1,11 +1,18 @@
 import React from "react";
+import { message } from "antd";
 import "../styles/LayoutStyle.css";
-import { SidebarMenu } from "../Data/data";
-import { Link } from "react-router-dom";
-import { UseSelector, useSelector } from "react-redux";
+import { userMenu, adminMenu } from "../Data/data";
+import { Link, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
+  const SidebarMenu = user.isAdmin ? userMenu : adminMenu;
+  const handleLogout = () =>{
+    localStorage.clear();
+    message.success('Logout successfully');
+    Navigate('/login');
+  }
   return (
     <div className="main">
       <div className="layout">
@@ -18,12 +25,16 @@ const Layout = ({ children }) => {
             {SidebarMenu.map((menu, index) => {
               return (
                 <div className="menu-item" key={index}>
-                  <i className={`fas ${menu.icon}`}></i>{" "}
+                  <i className={`fas ${menu.icon}`}></i>
                   {/* Use "fas" for Font Awesome Solid icons */}
                   <Link to={menu.path}>{menu.name}</Link>
                 </div>
               );
             })}
+            <div className="menu-item" onClick={handleLogout}>
+              <i className="fas fa-sign-out-alt"></i>
+              <Link to="/login">Logout</Link>
+            </div>
           </div>
         </div>
         <div className="content">
