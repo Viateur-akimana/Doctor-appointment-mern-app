@@ -1,5 +1,5 @@
 const userModel = require("../model/userModel");
-const doctorModel = require("../model/doctorModel")
+const doctorModel = require("../model/doctorModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -44,88 +44,100 @@ const loginController = async () => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expriresIn: 3 * 24 * 60 * 60 * 1000,
     });
-    res.status(200).send({success:true,message:"login successfully"});
+    res.status(200).send({ success: true, message: "login successfully" });
   } catch (error) {
-    return res.status(500).send({message:"Error in loging in",success:false,token:token})
+    return res
+      .status(500)
+      .send({ message: "Error in loging in", success: false, token: token });
   }
 };
 //getting user data
-const authController =async()=>{
-try {
-  const user = await userModel.findOne({_id:req.body.userId});
-if(!user){
-  return res.status(404).send({
-    success:"false",
-    message:"user not found"
-  })
-}else{
-  res.status(200).send({
-    success:'true',
-    data:{
-      name:user.name,
-      email:user.email
+const authController = async () => {
+  try {
+    const user = await userModel.findOne({ _id: req.body.userId });
+    if (!user) {
+      return res.status(404).send({
+        success: "false",
+        message: "user not found",
+      });
+    } else {
+      res.status(200).send({
+        success: "true",
+        data: {
+          name: user.name,
+          email: user.email,
+        },
+      });
     }
-  })
-}
-  
-} catch (error) {
-  console.log(error)
-  res.status(500).send({
-    success:'false',
-    message:'authentication failed'
-  })
-  
-}
-}
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: "false",
+      message: "authentication failed",
+    });
+  }
+};
 //apply doctor controller
 
-const applyDoctorController = async(req,res) =>{
-try {
-  const newDoctor = await doctorModel({...req.body,status:"pending"})
-  await newDoctor.save();
-  const adminUser = await userModel.findOne({isAdmin:true});
-  const notification = adminUser.notification;
-  notification.push({
-    type:"Apply-doctor-request",
-    message:`${newDoctor.firstname} ${newDoctor.lastname} Has applied for account`,
-    data:{
-       doctorId:newDoctor._id,
-       name: newDoctor.firstname +  " " + newDoctor.lastname,
-       onClickPath:"admin/doctors"
-    }
-  })
-} catch (error) {
-  console.log(error)
-  res.status(500).send({
-    success:true,
-    message:"An error occured when applying for doctor"
-  })
-  
-}
-}
+const applyDoctorController = async (req, res) => {
+  try {
+    const newDoctor = await doctorModel({ ...req.body, status: "pending" });
+    await newDoctor.save();
+    const adminUser = await userModel.findOne({ isAdmin: true });
+    const notification = adminUser.notification;
+    notification.push({
+      type: "Apply-doctor-request",
+      message: `${newDoctor.firstname} ${newDoctor.lastname} Has applied for account`,
+      data: {
+        doctorId: newDoctor._id,
+        name: newDoctor.firstname + " " + newDoctor.lastname,
+        onClickPath: "admin/doctors",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: true,
+      message: "An error occured when applying for doctor",
+    });
+  }
+};
 
 //getting all notification controller
-const getAllNotificationController = async(req,res)=>{
+const getAllNotificationController = async (req, res) => {
   try {
-    const user = await userModel.findOne({_id:req.body._id});
+    const user = await userModel.findOne({ _id: req.body._id });
     const seennotification = user.seennotification;
-    const  notification = user.notification;
-    seennotification.push(...notification)
+    const notification = user.notification;
+    seennotification.push(...notification);
     user.notification = [];
     user.seennotification = notification;
     const updatedUser = await user.save();
     res.status(201).send({
       success: true,
-      message:"Notification read"
+      message: "Notification read",
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      success:false,
-      message:"An error occured while getting notification",
-      data: updatedUser
-    })
+      success: false,
+      message: "An error occured while getting notification",
+      data: updatedUser,
+    });
   }
+};
+
+const deleteAllNoltificationController = async()=>{
+try {
+  const user = await userModel.findOne()
+  
+} catch (error) {
+  console.log(error);
+  res.status(500).send({
+    success:false,
+    message:"Failed,there is an error in deleting notifications"
+  })
+}
 }
 
 module.exports = {
@@ -133,5 +145,6 @@ module.exports = {
   loginController,
   authController,
   applyDoctorController,
-  getAllNotificationController
+  getAllNotificationController,
+  deleteAllNoltificationController,
 };

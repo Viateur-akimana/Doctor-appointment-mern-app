@@ -4,9 +4,11 @@ import { Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {showLoading,hideLoading} from "../redux/features/userSlice"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate()
   const { user } = useSelector((state) => state.user);
   const handleMark = async() => {
 try {
@@ -50,11 +52,11 @@ else{
             </h4>
           </div>
         </Tabs.TabPane>
-        user?.notification.map((notification) => (
-        <div className="card" onClick={notification.onClickPath}>
-          <div className="card-text">{notification.message}</div>
+        user?.notification.map((notification) => {
+        <div className="card" style={{Cursor:pointer}>
+          <div className="card-text" onClick={()=> Navigate(notification.onClickPath)}>{notification.message}</div>
         </div>
-        ))
+})
         <Tabs.TabPane tab="Read" key={0}>
           <div className="d-flex justify-content-end">
             <h4 className="" onClick={handleDelete}>
