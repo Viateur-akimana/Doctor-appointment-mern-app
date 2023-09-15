@@ -32,8 +32,20 @@ else{
   };
   const handleDelete = async() => {
     try {
-        
+        dispatch(showLoading());
+        const res = await axios.post("api/v1/user/delete-all-notification",{_id:user._id},{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        dispatch(hideLoading());
+        if(res.data.success){
+            message.success(res.data.message);
+        }else{
+            message.error(res.data.message);
+        }
     } catch (error) {
+        dispatch(hideLoading());
         console.log(error)
         res.status(500).send({
             success:false,
@@ -59,7 +71,7 @@ else{
 })
         <Tabs.TabPane tab="Read" key={0}>
           <div className="d-flex justify-content-end">
-            <h4 className="" onClick={handleDelete}>
+            <h4 className=" p-2 text-primary" style={{cursor:pointer}} onClick={handleDelete}>
               Delete All Read
             </h4>
           </div>

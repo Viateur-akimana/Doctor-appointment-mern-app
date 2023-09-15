@@ -129,7 +129,15 @@ const getAllNotificationController = async (req, res) => {
 
 const deleteAllNoltificationController = async()=>{
 try {
-  const user = await userModel.findOne()
+  const user = await userModel.findOne({_id:req.body._id});
+  user.notification = [];
+  user.seennotification = [];
+  const upodatedUser = await user.save();
+  res.status(201).send({
+    success:true,
+    message:"successfully deleting of the notification",
+    data:updatedUser
+  })
   
 } catch (error) {
   console.log(error);

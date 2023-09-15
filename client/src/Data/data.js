@@ -35,13 +35,13 @@ export const adminMenu = [
     icon: "fas fa-house-user", // Updated class name
   },
   {
-    name: "Doctor",
-    path: "/doctor",
+    name: "Doctors",
+    path: "/admin/doctors",
     icon: "fas fa-user-md", // Updated class name
   },
   {
-    name: "User",
-    path: "/user",
+    name: "Users",
+    path: "/admin/users",
     icon: "fas fa-user", // Updated class name
   },
   {
