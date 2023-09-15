@@ -4,15 +4,16 @@ import "../styles/LayoutStyle.css";
 import { userMenu, adminMenu } from "../Data/data";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Avatar, Badge } from "antd";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const SidebarMenu = user.isAdmin ? userMenu : adminMenu;
-  const handleLogout = () =>{
+  const handleLogout = () => {
     localStorage.clear();
-    message.success('Logout successfully');
-    Navigate('/login');
-  }
+    message.success("Logout successfully");
+    Navigate("/login");
+  };
   return (
     <div className="main">
       <div className="layout">
@@ -40,7 +41,16 @@ const Layout = ({ children }) => {
         <div className="content">
           <div className="header">
             <div className="header-container">
-              <i class="fa-regular fa-bell"></i>
+              <Badge
+                count={user && user.notification.length}
+                onClick={() => {
+                  Navigate("/notification");
+                }}
+              >
+                <Avatar shape="square" size="large" />
+                <i class="fa-regular fa-bell"></i>
+              </Badge>
+
               <Link to="/profile">{user.name}</Link>
             </div>
           </div>

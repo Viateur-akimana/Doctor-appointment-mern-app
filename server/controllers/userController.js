@@ -81,7 +81,19 @@ if(!user){
 
 const applyDoctorController = async(req,res) =>{
 try {
-  
+  const newDoctor = await doctorModel({...req.body,status:"pending"})
+  await newDoctor.save();
+  const adminUser = await userModel.findOne({isAdmin:true});
+  const notification = adminUser.notification;
+  notification.push({
+    type:"Apply-doctor-request",
+    message:`${newDoctor.firstname} ${newDoctor.lastname} Has applied for account`,
+    data:{
+       doctorId:newDoctor._id,
+       name: newDoctor.firstname +  " " + newDoctor.lastname,
+       onClickPath:"admin/doctors"
+    }
+  })
 } catch (error) {
   console.log(error)
   res.status(500).send({
@@ -92,9 +104,34 @@ try {
 }
 }
 
+//getting all notification controller
+const getAllNotificationController = async(req,res)=>{
+  try {
+    const user = await userModel.findOne({_id:req.body._id});
+    const seennotification = user.seennotification;
+    const  notification = user.notification;
+    seennotification.push(...notification)
+    user.notification = [];
+    user.seennotification = notification;
+    const updatedUser = await user.save();
+    res.status(201).send({
+      success: true,
+      message:"Notification read"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success:false,
+      message:"An error occured while getting notification",
+      data: updatedUser
+    })
+  }
+}
+
 module.exports = {
   registerController,
   loginController,
   authController,
-  applyDoctorController
+  applyDoctorController,
+  getAllNotificationController
 };

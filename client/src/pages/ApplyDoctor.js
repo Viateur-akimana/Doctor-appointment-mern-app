@@ -1,10 +1,40 @@
 import React from "react";
-import { Form, Input, Col, Row, TimePicker } from "antd";
+import { Form, Input, Col, Row, TimePicker, message } from "antd";
+import axios from "axios";
 import Layout from "../component/Layout";
-
+import { useDispatch, useNavigate, useSelector } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/userSlice";
 const ApplyDoctor = () => {
-  const handleFinish = (values) => {
-    console.log(values);
+  const Navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const handleFinish = async (reqq, res) => {
+    try {
+      dispatch(showLoading());
+      const res = await axios.post(
+        "api/v1/user/apply-doctor",
+        { ...values, userId: user._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        message.success(res.data.success);
+        Navigate("/");
+      } else {
+        message.error(res.data.error);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Something went wrong",
+      });
+    }
   };
   return (
     <Layout>
@@ -78,14 +108,15 @@ const ApplyDoctor = () => {
               required
               rules={[{ required: true }]}
             >
-              <TimePicker.RangePicker/>
+              <TimePicker.RangePicker />
             </Form.Item>
           </Col>
-          <Col xs={24} md={24} lg={8}/>
+          <Col xs={24} md={24} lg={8} />
           <Col xs={24} md={24} lg={8}>
-          <button className="btn btn-primary" type="submit">Submit</button>
-            </Col>
-
+            <button className="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </Col>
         </Row>
       </Form>
     </Layout>

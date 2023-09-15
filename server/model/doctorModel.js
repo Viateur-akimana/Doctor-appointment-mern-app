@@ -35,9 +35,12 @@ const doctorSchema = new mongoose.Schema({
     type: Object,
     required: [true, "Please give the time"],
   },
+  seennotification:{
+    type:String
+  }
 },{timestamps: true}
 );
 
-const doctorModel = mongoose.model('user',doctorSchema);
+const doctorModel = mongoose.model('doctors',doctorSchema);
 
 module.exports=doctorModel
