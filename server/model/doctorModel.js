@@ -31,6 +31,10 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide fees"],
   },
+  status: {
+    type:String,
+    default:"pending"
+  },
   timings: {
     type: Object,
     required: [true, "Please give the time"],

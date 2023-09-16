@@ -5,6 +5,7 @@ const cors = require("cors");
 const connectedDb = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const doctorRoutes = require("./routes/doctorRoutes")
 
 //configuring environment variables
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 //routes
 app.use("api/v1/user", userRoutes);
 app.use("api/v1/admin", adminRoutes);
+app.use("api/v1/doctor",doctorRoutes);
 
 //listening for the port
 const port = process.env.PORT || 3001;

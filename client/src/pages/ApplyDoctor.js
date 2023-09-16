@@ -8,7 +8,7 @@ const ApplyDoctor = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const handleFinish = async (reqq, res) => {
+  const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
@@ -30,10 +30,7 @@ const ApplyDoctor = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      res.status(500).send({
-        success: false,
-        message: "Something went wrong",
-      });
+      message.error("An issue occured while applying for doctor")
     }
   };
   return (

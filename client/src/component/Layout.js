@@ -8,12 +8,34 @@ import { Avatar, Badge } from "antd";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
-  const SidebarMenu = user.isAdmin ? userMenu : adminMenu;
+  const SidebarMenu = user.isAdmin
+    ? adminMenu
+    : user?.idDoctor
+    ? doctorMenu
+    : userMenu;
   const handleLogout = () => {
     localStorage.clear();
     message.success("Logout successfully");
     Navigate("/login");
   };
+  //======= doctor =====
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "fas fa-house-user", // Updated class name
+    },
+    {
+      name: "Appointments",
+      path: "/appointments",
+      icon: "far fa-list", // Updated class name
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "fas fa-user", // Updated class name
+    },
+  ];
   return (
     <div className="main">
       <div className="layout">
