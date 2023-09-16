@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const useMidddleware = require("../middleware/userMiddleware");
 const {registerController,loginController,authController, applyDoctorController,getAllNotificationController,deleteAllNoltificationController} = require("../controllers/userController");
+const { getAllDoctorsControllers } = require("../controllers/userController");
 
 //router for registering   ||POST
 router.post("/register", registerController);
@@ -16,6 +17,8 @@ router.post("/applydoctor",applyDoctorController);
 //get all notification ||POST
 router.post("/get-all-notification",getAllNotificationController);
 //deleting all notifications
-router.post("/delete-all-notification",deleteAllNoltificationController)
+router.post("/delete-all-notification",deleteAllNoltificationController);
+//getting all doctors
+router.get("/getAllDoctors",getAllDoctorsControllers);
 
 module.exports = router;

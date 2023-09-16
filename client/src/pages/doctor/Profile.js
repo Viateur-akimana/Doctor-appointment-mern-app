@@ -4,6 +4,7 @@ import axios from "axios";
 import Layout from "../../component/Layout";
 import { useDispatch, useNavigate, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
+import moment from "moment";
 
 const Profile = () => {
   const params = useParams();
@@ -16,7 +17,10 @@ const Profile = () => {
       dispatch(showLoading());
       const res = await axios.post(
         "api/v1/doctor/updateProfile",
-        { ...values, userId: user._id },
+        { ...values, userId: user._id,timings:[
+            moment(values.timings[0], "HH:MM"),
+            moment(values.timings[1],"HH:MM")
+        ] },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -62,7 +66,12 @@ const Profile = () => {
   return (
     <Layout>
       {doctor && (
-        <Form Layout="vertical" onFinish={handleFinish} className="m-3" initialValues={doctor}>
+        <Form Layout="vertical" onFinish={handleFinish} className="m-3" initialValues={{
+            ...doctor,timings:[
+                moment(doctor.timings[0].format("HH:MM")),
+                moment(doctor.timings[1].format("HH:MM"))
+            ]
+        }}>
           <h6 className="text-light">Personal Details:</h6>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>

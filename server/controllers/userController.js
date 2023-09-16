@@ -148,6 +148,24 @@ try {
 }
 }
 
+const getAllDoctorsControllers = async() =>{
+  try {
+    const doctors = await doctorModel.find({status:"approved"});
+    res.status(200).send({
+      success:true,
+      message:"All approved doctors",
+      data:doctors
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success:false,
+      error,
+      message:'Failed to get all doctors'
+    })
+  }
+}
+
 module.exports = {
   registerController,
   loginController,
@@ -155,4 +173,5 @@ module.exports = {
   applyDoctorController,
   getAllNotificationController,
   deleteAllNoltificationController,
+  getAllDoctorsControllers
 };
