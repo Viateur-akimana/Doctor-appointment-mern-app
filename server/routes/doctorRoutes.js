@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {getDoctorInfoController, updateProfileController} = require('../controllers/doctorController') 
+const {getDoctorInfoController, updateProfileController, getDoctorByIdController} = require('../controllers/doctorController') 
 
 
 //route for getting doctor information
 router.post("/getDoctorInfo",getDoctorInfoController);
-router.post("/updateProfile",updateProfileController)
+//updating the profile
+router.post("/updateProfile",updateProfileController);
+//get doctor single doctor info
+router.post("/getDoctorById",getDoctorByIdController);
 module.exports = router

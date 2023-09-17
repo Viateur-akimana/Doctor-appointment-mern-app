@@ -46,6 +46,14 @@ function App() {
             }
           />
           <Route
+            path="/doctor/book-appointment/:doctorId"
+            element={
+              <ProtectedRoutes>
+                <BookingPage />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
             path="/notification"
             element={
               <ProtectedRoutes>

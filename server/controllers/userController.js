@@ -2,6 +2,7 @@ const userModel = require("../model/userModel");
 const doctorModel = require("../model/doctorModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const appointmentModel = require("../model/appointmentModel");
 
 //controllers
 const registerController = async (req, res) => {
@@ -127,44 +128,69 @@ const getAllNotificationController = async (req, res) => {
   }
 };
 
-const deleteAllNoltificationController = async()=>{
-try {
-  const user = await userModel.findOne({_id:req.body._id});
-  user.notification = [];
-  user.seennotification = [];
-  const upodatedUser = await user.save();
-  res.status(201).send({
-    success:true,
-    message:"successfully deleting of the notification",
-    data:updatedUser
-  })
-  
-} catch (error) {
-  console.log(error);
-  res.status(500).send({
-    success:false,
-    message:"Failed,there is an error in deleting notifications"
-  })
-}
-}
-
-const getAllDoctorsControllers = async() =>{
+const deleteAllNoltificationController = async () => {
   try {
-    const doctors = await doctorModel.find({status:"approved"});
-    res.status(200).send({
-      success:true,
-      message:"All approved doctors",
-      data:doctors
-    })
+    const user = await userModel.findOne({ _id: req.body._id });
+    user.notification = [];
+    user.seennotification = [];
+    const upodatedUser = await user.save();
+    res.status(201).send({
+      success: true,
+      message: "successfully deleting of the notification",
+      data: updatedUser,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      success:false,
-      error,
-      message:'Failed to get all doctors'
-    })
+      success: false,
+      message: "Failed,there is an error in deleting notifications",
+    });
   }
-}
+};
+
+const getAllDoctorsControllers = async () => {
+  try {
+    const doctors = await doctorModel.find({ status: "approved" });
+    res.status(200).send({
+      success: true,
+      message: "All approved doctors",
+      data: doctors,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Failed to get all doctors",
+    });
+  }
+};
+
+//book appointment controller
+const bookAppointmentController = async () => {
+  try {
+    req.body.status = "pending";
+    const newAppointment = await appointmentModel(req.body);
+    newAppointment.save();
+    const user = await userModel.findById({ _id: req.body.userId });
+    user.notification.push({
+      type: "Appointment-request",
+      message: `Appointment request is made from ${req.body.userInfo.name}`,
+      onClickPath: "/user/appointments",
+    });
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Book appointment is successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in booking appointment",
+    });
+  }
+};
 
 module.exports = {
   registerController,
@@ -173,5 +199,5 @@ module.exports = {
   applyDoctorController,
   getAllNotificationController,
   deleteAllNoltificationController,
-  getAllDoctorsControllers
+  getAllDoctorsControllers,
 };

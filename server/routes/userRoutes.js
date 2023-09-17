@@ -20,5 +20,7 @@ router.post("/get-all-notification",getAllNotificationController);
 router.post("/delete-all-notification",deleteAllNoltificationController);
 //getting all doctors
 router.get("/getAllDoctors",getAllDoctorsControllers);
+//Booking appointment
+router.post("/book-appointment",bookAppointmentController)
 
 module.exports = router;
