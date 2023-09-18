@@ -7,11 +7,13 @@ import Spinners from "./component/Spinners";
 import PublicRoutes from "./component/PublicRoutes";
 import ProtectedRoutes from "./component/ProtectedRoutes";
 import ApplyDoctor from "./pages/ApplyDoctor";
-import Notification from "./pages/notification";
 import Doctors from "./pages/admin/Doctors";
 import Users from "./pages/admin/Users";
 import Profile from "./pages/doctor/Profile";
 import Appointments from "./pages/Appointments";
+import Notification from "./pages/Notification";
+import BookingPage from "./pages/BookingPage";
+import DoctorAppointments from "./pages/doctor/DoctorAppointments"
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -99,6 +101,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Appointments />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/doctor-appointments"
+            element={
+              <ProtectedRoutes>
+                <DoctorAppointments />
               </ProtectedRoutes>
             }
           />

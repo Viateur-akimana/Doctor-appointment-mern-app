@@ -1,8 +1,9 @@
 import axios from "axios";
-import { Layout } from "../component/Layout";
-import React, { useState } from "react";
-import { message } from "antd";
+import React, { useState,useEffect } from "react";
+import { message,Table } from "antd";
 import moment from "moment"
+import Layout from "../../component/Layout";
+
 
 const Appointments = () => {
   const [appointment, setAppointment] = useState([]);
@@ -54,7 +55,7 @@ getAppointments()
   return (
     <Layout>
       <h6>Appointments</h6>
-      <Table columns={columns} datasource={appointments}/>
+      <Table columns={columns} datasource={appointment}/>
     </Layout>
   );
 };

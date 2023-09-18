@@ -2,8 +2,9 @@ import React from "react";
 import { Form, Input, Col, Row, TimePicker, message } from "antd";
 import axios from "axios";
 import Layout from "../component/Layout";
-import { useDispatch, useNavigate, useSelector } from "react-redux";
-import { showLoading, hideLoading } from "../redux/features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 const ApplyDoctor = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
